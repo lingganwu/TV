@@ -1,49 +1,61 @@
-# TVBox 电视频道菜单自定义与直播源接口自动校验与更新
+# TVBox 电视频道菜单自定义与直播源接口自动校验与更新工具
 
 自定义频道菜单，根据模板文件的直播源接口，自动获取并更新最新的直播源接口，校验并生成可用的频道接口文件
 
-[English](./README-EN.md) | 中文
+[English](./README_en.md) | 中文
 
 ## 特点
 
 - 自定义模板，生成您想要的频道分类与频道顺序
-- 接口验效，过滤无效接口
-- 按响应时间、分辨率综合权衡排序
-- 定时执行，北京时间每日 8:00 执行更新一次
-- 工作流更新频道数量上限 200 个，本地运行无限制
-- 可设置重点关注频道，单独配置获取分页的数量
-- 分页结果获取（可配置页数、接口数量）
-- 保证更新时效性，配置获取最近时间范围内更新的接口
-- 可过滤 ipv4、ipv6 接口
-- 黑名单功能：接口域名与关键字
-- 自定义接口获取源
+- 支持多种获取源方式：线上检索、组播源、酒店源、订阅源
+- 接口测速验效，响应时间、分辨率优先级，过滤无效接口
+- 定时执行，北京时间每日 8:00 执行更新
+- 支持多种运行方式：工作流、命令行、界面软件、Docker
+- 更多功能请见[配置参数](./docs/config.md)
 
 ## 配置
 
-| 配置项                 | 默认值                                                                                                                      | 描述                                                               |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| source_file            | "demo.txt"                                                                                                                  | 模板文件名称                                                       |
-| final_file             | "result.txt"                                                                                                                | 生成文件名称                                                       |
-| favorite_list          | ["CCTV1","CCTV13"]                                                                                                          | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       |
-| favorite_page_num      | 5                                                                                                                           | 关注频道获取分页数量                                               |
-| default_page_num       | 3                                                                                                                           | 常规频道获取分页数量                                               |
-| urls_limit             | 10                                                                                                                          | 单个频道接口数量                                                   |
-| response_time_weight   | 0.5                                                                                                                         | 响应时间权重值（所有权重值总和应为 1）                             |
-| resolution_weight      | 0.5                                                                                                                         | 分辨率权重值 （所有权重值总和应为 1）                              |
-| recent_days            | 30                                                                                                                          | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
-| ipv_type               | "ipv4"                                                                                                                      | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all"                |
-| domain_blacklist       | ["epg.pw"]                                                                                                                  | 接口域名黑名单，用于过滤低质量含广告类域名的接口                   |
-| url_keywords_blacklist | []                                                                                                                          | 接口关键字黑名单，用于过滤含特定字符的接口                         |
-| extend_base_urls       | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | 接口获取源，目前仅兼容特定内容格式与部分频道名称的模糊匹配         |
+[配置参数](./docs/config.md)
 
 ## 快速上手
 
-有关详细教程，请查看[快速上手](./docs/tutorial.md)
+### 方式一：命令行更新
+
+```python
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### 方式二：界面软件更新
+
+```python
+1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
+
+2. 或者在项目目录下运行以下命令，即可打开界面软件：
+pipenv run ui
+```
+
+### 方式三：Docker 更新
+
+```bash
+1. 拉取镜像：docker pull guovern/tv:latest
+2. 运行容器：docker run -d -p 8000:8000 tv
+3. 访问（域名:8000）查看更新结果
+```
+
+#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000
+
+### 方式四：工作流更新
+
+Fork 本项目并开启工作流更新
+
+[更多详细教程](./docs/tutorial.md)
 
 如果您不想折腾，刚好我的配置符合您的需求，可以使用以下链接：
 
-- 接口源：https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/result.txt
-- 数据源：https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/source.json
+- 接口源：https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.txt
+- 数据源：https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 ## 更新日志
 
@@ -65,14 +77,10 @@
 
 使用本项目的代码或数据即表示您已经了解并接受这些条款。
 
-## GitHub 使用条款
-
-在 Fork 或使用本项目时，您必须遵守[GitHub 使用条款](https://docs.github.com/cn/github/site-policy/github-terms-of-service)。这包括但不限于禁止上传违规内容，包括侵犯版权、非法、恶意或违反条款中的内容。任何违反这些规定的行为都可能导致您的账户被封禁。在使用本项目时，请确保您的行为符合这些规定。
-
-如果您不同意遵守这些条款，您应立即停止使用本项目的代码和数据。
-
-使用本项目的代码或数据即表示您已经了解并接受这些条款。
-
 ## 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
+
+## 赞赏
+
+![image](./docs/images/appreciate.jpg)

@@ -56,42 +56,49 @@ Similar to editing the template, modify the running configuration
 4. Click Commit changes... to save.
 
 Adjust the configuration as needed. Below is the default configuration explanation:
+[Config parameter](./docs/config_en.md)
 
-| Configuration Item     | Default Value                                                                                                               | Description                                                                                                                           |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| source_file            | "demo.txt"                                                                                                                  | Template file name                                                                                                                    |
-| final_file             | "result.txt"                                                                                                                | Generated file name                                                                                                                   |
-| favorite_list          | ["CCTV1","CCTV13"]                                                                                                          | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)                       |
-| favorite_page_num      | 5                                                                                                                           | Page retrieval quantity for favorite channels                                                                                         |
-| default_page_num       | 3                                                                                                                           | Page retrieval quantity for regular channels                                                                                          |
-| urls_limit             | 10                                                                                                                          | Number of interfaces per channel                                                                                                      |
-| response_time_weight   | 0.5                                                                                                                         | Response time weight value (the sum of all weight values should be 1)                                                                 |
-| resolution_weight      | 0.5                                                                                                                         | Resolution weight value (the sum of all weight values should be 1)                                                                    |
-| recent_days            | 30                                                                                                                          | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues                    |
-| ipv_type               | "ipv4"                                                                                                                      | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                                                 |
-| domain_blacklist       | ["epg.pw"]                                                                                                                  | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                                      |
-| url_keywords_blacklist | []                                                                                                                          | Interface keyword blacklist, used to filter out interfaces containing specific characters                                             |
-| extend_base_urls       | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | The source of interface acquisition, currently only compatible with specific content formats and fuzzy matching of some channel names |
+## Step 4: Run Updates
 
-## Step 4: Run Updates Locally (Recommended, Stable, Supports a large number of channel updates)
-
-### 1. Install Python
-
-Please download and install Python from the official website, and choose to add Python to the system environment variable Path during installation.
-
-### 2. Run the Update
-
-Open the terminal CMD under the project directory and run the following commands in order:
+### Method 1: Command Line Update
 
 ```python
+1. Install Python
+Please download and install Python from the official site. During installation, choose to add Python to the system's environment variables Path.
+
+2. Run Update
+Open a CMD terminal in the project directory and run the following commands in sequence:
 pip3 install pipenv
 pipenv install
 pipenv run build
 ```
 
-### 3. Update the File to the Repository
+### Method 2: GUI Software Update
 
-After the interface update is completed, upload the user_result.txt to your personal repository to complete the update.
+```python
+1. Download the update tool software, open the software, click update to complete the update.
+
+2. Alternatively, run the following command in the project directory to open the GUI software:
+pipenv run ui
+```
+
+### Method 3: Docker Update
+
+```bash
+1. Pull the image: docker pull guovern/tv:latest
+2. Run the container: docker run -d -p 8000:8000 tv
+3. Access (domain:8000) to view the update results
+```
+
+#### Note: Link to the result file after updates of methods one to three: http://local ip:8000
+
+### Method 4: Workflow Update
+
+Please see step six
+
+### 3. Update the File to the Repository(optional)
+
+If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your personal repository to use it.
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
 https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/user_result.txt
 
@@ -116,7 +123,7 @@ Return to the homepage of your repository. If there are updates to the project, 
 
 ## Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
 
-## Step 6: Enable Auto-update (Only suitable for a small number of channel updates)
+## Step 6: Enable workflow auto-update
 
 If your template and configuration modifications are correct, you can configure Actions to achieve automatic updates
 
